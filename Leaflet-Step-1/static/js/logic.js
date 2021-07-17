@@ -7,6 +7,7 @@ d3.json(queryUrl).then(function(data) {
   createFeatures(data.features);
 });
 
+// Got help from my tutor to create this function 
 function circleColor(depth){
   if (depth >90)
     return "#cc0000"; 
@@ -40,7 +41,7 @@ function createFeatures(earthquakeData) {
         return new L.circle(latlon,
           {fillColor:circleColor(feature.geometry.coordinates[2]),
           color:"gray",
-          radius:(feature.properties.mag)*30000,
+          radius:(feature.properties.mag)*20000,
           stroke: true,
           weight: 1,
           fillOpacity:0.8
