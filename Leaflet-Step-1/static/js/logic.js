@@ -35,11 +35,12 @@ function createFeatures(earthquakeData) {
   var earthquakes = L.geoJSON(earthquakeData, {
       pointToLayer:function(feature,latlon){
         return new L.circle(latlon,
-          {fillColor:circleColor(feature.geometry.coordinates[2]), 
+          {fillColor:circleColor(feature.geometry.coordinates[2]),
+          color:circleColor(feature.geometry.coordinates[2]),
           radius:(feature.properties.mag)*30000,
           stroke: true,
           weight: 1,
-          opacity: 1
+          fillOpacity:1
           })
       },
     onEachFeature: onEachFeature
