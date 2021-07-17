@@ -9,14 +9,16 @@ d3.json(queryUrl).then(function(data) {
 
 function circleColor(depth){
   if (depth >90)
-    return "red"; 
+    return "#cc0000"; 
   else if (depth >70)
-    return "orange";
+    return "#ff6600";
   else if (depth >50)
-    return "yellow";
+    return "#ff9966";
   else if (depth >30)
-    return "yellow";
-  else return "green";
+    return "#ffff00";
+  else if (depth >10)
+    return "#33cc33";
+  else return "#00ff00";
 }
 
 function createFeatures(earthquakeData) {
@@ -26,7 +28,8 @@ function createFeatures(earthquakeData) {
   function onEachFeature(feature, layer) {
     layer.bindPopup("<h3>" + "Location: " +feature.properties.place +
       "</h3><hr><p>" + "Date: "+ new Date(feature.properties.time)
-       + "</p>"+ "<hr><p> Magnitude: " + (feature.properties.mag) + "</p>");
+       + "</p>"+ "<hr><p> Magnitude: " + (feature.properties.mag) + 
+       "   |   Depth: " + (feature.geometry.coordinates[2]) + "</p>");
       // feature.properties.time
   }
 
@@ -36,11 +39,11 @@ function createFeatures(earthquakeData) {
       pointToLayer:function(feature,latlon){
         return new L.circle(latlon,
           {fillColor:circleColor(feature.geometry.coordinates[2]),
-          color:circleColor(feature.geometry.coordinates[2]),
+          color:"gray",
           radius:(feature.properties.mag)*30000,
           stroke: true,
           weight: 1,
-          fillOpacity:1
+          fillOpacity:0.8
           })
       },
     onEachFeature: onEachFeature
@@ -83,8 +86,8 @@ function createMap(earthquakes) {
 
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
-    "Satellite": satellite,
     "Grayscale": grayscale,
+    "Satellite": satellite,
     "Outdoors": outdoors
   };
 
@@ -99,7 +102,7 @@ function createMap(earthquakes) {
       37.62, -99.59
     ],
     zoom: 5,
-    layers: [satellite ,earthquakes]
+    layers: [grayscale ,earthquakes]
   });
 
   // Create a layer control
